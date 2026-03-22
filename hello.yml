@@ -1,0 +1,10 @@
+# Første playbook test
+---
+- name: Konfigurere brannmurregler
+  hosts: andoraservers
+  become: true
+
+  tasks:
+    - name: 
+
+...
