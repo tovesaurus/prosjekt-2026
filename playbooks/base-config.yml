@@ -1,0 +1,11 @@
+---
+# Basekonfigurasjoner alle servere skal ha
+
+# Slå på NTP
+
+# Sjekk om python er installert
+# Installer python if not
+
+# Kanskje se på iptablesscriptet jeg hadde for opprettelse av mapper og bakcup osv
+
+# persistent iptables, lag egen fil, deaktivert cloud

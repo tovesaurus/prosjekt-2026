@@ -1,0 +1,11 @@
+---
+- name: Configure Timezone
+  hosts: all
+  become: true
+  vars:
+    system_timezone: "Europe/Oslo"
+
+  tasks:
+    - name: Set timezone to Europe/Oslo
+      community.general.timezone:
+        name: "{{ system_timezone }}"
