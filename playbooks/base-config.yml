@@ -1,11 +1,19 @@
 ---
 # Basekonfigurasjoner alle servere skal ha
 
+- name: Configure basic settings for all servers
+  hosts: all
+  become: true
+
+# Alle hosts må ha python installert for at Ansible skal kunne utføre playbooks:
+  tasks:
+  - name: Install python
+    ansible.builtin.apt:
+      name: Python3
+      state: present
+
 # Slå på NTP
-
-# Sjekk om python er installert
-# Installer python if not
-
+# Sett tidssone
+# Slå på unattended upgrades
 # Kanskje se på iptablesscriptet jeg hadde for opprettelse av mapper og bakcup osv
-
 # persistent iptables, lag egen fil, deaktivert cloud
