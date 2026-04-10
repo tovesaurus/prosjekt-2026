@@ -1,0 +1,14 @@
+# Mal for statisk IP
+network:
+  version: 2
+  ethernets:
+    eth0:
+      dhcp4: false
+      addresses:   
+        - 10.0.0.64/24
+      routes:
+        - to: default
+          via: 10.0.0.138
+      nameservers:
+        addresses:
+          - 10.0.0.60 # IP-adressen til Windows (trengs dette på backup?)
