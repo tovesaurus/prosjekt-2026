@@ -3,8 +3,3 @@
 - name: Konfigurere brannmurregler
   hosts: all
   become: true
-
-  tasks:
-    - name: 
-
-...
