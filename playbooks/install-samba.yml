@@ -1,0 +1,15 @@
+---
+- name: Installer samba og andre nødvendigheter
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Installer samba
+
+    - name: Installer winbind
+
+    - name: installer libnss-winbind
+
+    - name: installer libpam-winbind
+
+    - name: installer krb5-user

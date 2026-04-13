@@ -5,22 +5,6 @@
   hosts: all
   become: true
 
-
-# Alle hosts må ha python installert for at Ansible skal kunne utføre playbooks
-# For å installere python så må det gjøres som raw? siden ansible ikke kan gjøre noe uten python først.
-  tasks:
-  - name: Install python
-    ansible.builtin.apt:
-      name: Python3
-      state: present
-  
-  - name: Turn on unattended upgrades
-
-  - name: Set timezone
-
-  
-    
-
 # Slå på NTP
 # Sett tidssone
 # Slå på unattended upgrades

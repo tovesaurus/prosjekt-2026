@@ -1,5 +1,0 @@
-# Første playbook test
----
-- name: Konfigurere brannmurregler
-  hosts: all
-  become: true
