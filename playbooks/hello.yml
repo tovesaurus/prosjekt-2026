@@ -1,7 +1,7 @@
 # Første playbook test
 ---
 - name: Konfigurere brannmurregler
-  hosts: 
+  hosts: all
   become: true
 
   tasks:

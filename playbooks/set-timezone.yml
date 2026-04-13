@@ -1,11 +1,9 @@
 ---
-- name: Configure Timezone
-  hosts: all
+- name: Sette tidssone til UTC
+  hosts: testservers
   become: true
-  vars:
-    system_timezone: "Europe/Oslo"
 
   tasks:
-    - name: Set timezone to Europe/Oslo
+    - name: Sette system tidssone til UTC
       community.general.timezone:
-        name: "{{ system_timezone }}"
+        name: "UTC"
