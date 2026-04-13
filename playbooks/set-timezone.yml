@@ -1,6 +1,6 @@
 ---
 - name: Sette tidssone til UTC
-  hosts: test_servers
+  hosts: all
   become: true
 
   tasks:
