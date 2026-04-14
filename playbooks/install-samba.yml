@@ -1,15 +1,22 @@
 ---
+# NTP og search domain i netplan først
 - name: Installer samba og andre nødvendigheter
-  hosts: all
+  hosts: test_servers
+  # samba_fileshare
   become: true
 
   tasks:
+  # Samba muliggjør fildeling med windows
     - name: Installer samba
+      ansible.builtin.apt:
+        name: samba
+        state: present
 
+  # winbind lar linux og AD snakke sammen
     - name: Installer winbind
-
+# libnss gjør AD-brukere synlige i Linux
     - name: installer libnss-winbind
-
+# libpam lar AD-brukere logge inn
     - name: installer libpam-winbind
-
+# Kerberos er autentiseringssystemet for AD
     - name: installer krb5-user

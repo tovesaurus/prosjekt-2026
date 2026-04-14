@@ -1,0 +1,23 @@
+---
+- name: Installere og enable Chrony for tidssynkronisering
+  hosts: test_servers
+  become: true
+
+  tasks:
+    - name: Installer chrony
+      ansible.builtin.apt:
+        name: chrone
+        state: present
+        update_cache: true
+
+        # https://oneuptime.com/blog/post/2026-02-21-ansible-configure-time-synchronization-chrony/view
+
+        # deploy config
+
+        # lag log directory
+
+    - name: Enable og starte chrony
+      ansible.builtin.systemd:
+        name: chronyd
+        state: started
+        enabled: true
