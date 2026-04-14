@@ -1,22 +1,44 @@
 ---
-# NTP og search domain i netplan først
-- name: Installer samba og andre nødvendigheter
+- name: Installer samba avhengigheter for AD-integrasjon
   hosts: test_servers
-  # samba_fileshare
   become: true
 
   tasks:
-  # Samba muliggjør fildeling med windows
-    - name: Installer samba
+    - name: Installer winbind og samba
       ansible.builtin.apt:
-        name: samba
+        name:
+          - winbind
+          - libnss-winbind
+          - libpam-winbind
+          - samba
         state: present
 
+
+  # Samba muliggjør fildeling med windows
+        # name: samba
+        # state: present
+        # update_cache: true
+        # Eventuelt opprette standard delingsmappe samtidig?
+        # Andre playbooks har også enable/start og open firewall
+        # Lag egen playbook for samba shares heller tror jeg
+
   # winbind lar linux og AD snakke sammen
-    - name: Installer winbind
+    # - name: Installer winbind
+    #   ansible.builtin.apt:
 # libnss gjør AD-brukere synlige i Linux
-    - name: installer libnss-winbind
+    # - name: installer libnss-winbind
+    #   ansible.builtin.apt:
+    #     name: libnss-winbind
+    #     state: present
+
 # libpam lar AD-brukere logge inn
-    - name: installer libpam-winbind
+    # - name: installer libpam-winbind
+    #   ansible.builtin.apt:
+    #     name: libpam-winbind
+    #     state: present
+
 # Kerberos er autentiseringssystemet for AD
-    - name: installer krb5-user
+    # - name: installer krb5-user
+    #   ansible.builtin.apt:
+    #     name: krb5-user
+    #     state: present
