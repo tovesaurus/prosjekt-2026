@@ -4,12 +4,13 @@
   become: true
 
   tasks:
-    - name: Installer winbind og samba
+    - name: Installer winbind, Kerberos og samba
       ansible.builtin.apt:
         name:
           - winbind
           - libnss-winbind
           - libpam-winbind
+          - krb5-user
           - samba
         state: present
 
