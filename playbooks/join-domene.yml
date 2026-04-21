@@ -1,0 +1,13 @@
+---
+- name: Join ad.andoraarkitekter.no
+  hosts: test
+  become: true
+
+  vars_files:
+    - vars/main.yml 
+
+  tasks:
+    - name: join domenet
+      ansible.builtin.command:  net ads join -U {{ ad_user }}
+      args:
+        creates: /etc/krb5.keytab

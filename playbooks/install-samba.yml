@@ -7,12 +7,13 @@
     - name: Installer winbind, Kerberos og samba
       ansible.builtin.apt:
         name:
+          - samba
           - winbind
           - libnss-winbind
           - libpam-winbind
           - krb5-user
-          - samba
         state: present
+        update_cache: yes
 
 
 # Samba muliggjør fildeling med windows
