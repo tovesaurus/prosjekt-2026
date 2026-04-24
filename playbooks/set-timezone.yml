@@ -10,7 +10,7 @@
   
     - name: Konfigurer timesyncd
       ansible.builtin.template:
-        src: templates/krb5.conf.j2
+        src: ../templates/krb5.conf.j2
         dest: /etc/systemd/timesyncd.conf
 
     - name: Restart og enable timesyncd
