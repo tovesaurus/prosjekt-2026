@@ -1,13 +1,13 @@
-# Etter join kan denne pushes
-
 # /etc/nsswitch.conf
 #
 # Example configuration of GNU Name Service Switch functionality.
 # If you have the `glibc-doc-reference' and `info' packages installed, try:
 # `info libc "Name Service Switch"' for information about this file.
 
-passwd:         files winbind # pre join er denne files systemd
-group:          files winbind # pre join er denne files systemd
+# Use after domain is joined
+
+passwd:         files winbind
+group:          files winbind
 shadow:         files systemd
 gshadow:        files systemd
 

@@ -1,5 +1,5 @@
 ---
-- name: Sette tidssone til UTC
+- name: Konfigurere tidssynkronisjon
   hosts: all
   become: true
 
@@ -7,3 +7,15 @@
     - name: Sette system tidssone til UTC
       community.general.timezone:
         name: "UTC"
+  
+    - name: Konfigurer timesyncd
+      ansible.builtin.template:
+        src: templates/krb5.conf.j2
+        dest: /etc/systemd/timesyncd.conf
+
+    - name: Restart og enable timesyncd
+      ansible.builtin.service:
+        name: systemd-timesyncd
+        state: restarted
+        enabled: true
+

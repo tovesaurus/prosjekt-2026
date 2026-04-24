@@ -10,7 +10,7 @@
           - samba
           - winbind
           - libnss-winbind
-          - libpam-winbind
+          - libpam-winbind # mulig unødvendig
           - krb5-user
         state: present
         update_cache: yes

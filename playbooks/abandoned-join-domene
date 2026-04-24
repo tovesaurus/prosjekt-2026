@@ -1,0 +1,22 @@
+---
+- name: Join ad.andoraarkitekter.no
+  hosts: test
+  become: true
+  gather_facts: false
+
+  vars:
+    domain_name: "ad.andoraarkitekter.no"
+    domain_user: "administrator"
+    domain_password: "passord" # bruk vault
+
+  tasks:
+    - name: Sjekk om domenet allerede er joinet
+      ansible.builtin.command: net ads testjoin
+      register: testjoin_output
+      changed_when: false
+      failed_when: false
+
+    - name: join domenet
+      ansible.builtin.command: net ads join -U {{ domain_user }}%{{ domain_password }}
+      when: testjoin_output.rc != 0
+      no_log: true

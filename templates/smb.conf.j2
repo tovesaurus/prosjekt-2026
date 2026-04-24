@@ -1,0 +1,60 @@
+#======================= Global Settings =====================================
+[global]
+    # Domeneinnstillinger
+    realm = AD.ANDORAARKITEKTER.NO
+    workgroup = AD
+    security = ADS
+    server role = member server
+
+    # Kerberos
+    kerberos method: secrets and keytab
+    dedicated keytab file = /etc/krb5.keytab
+
+    # Name resolution
+    name resolve order = host bcast
+
+    # Winbind
+    winbind use default domain = yes
+    winbind enum users = yes
+    winbind enum groups = yes
+    winbind refresh tickets = yes
+
+    # ID Mapping
+    idmap config * : backend = tdb
+    idmap config * : range = 3000-7999
+    idmap config AD : backend = rid
+    idmap config AD : range = 10000-999999
+
+    
+    # ACL and attribute handling
+    # Enable Windows-compatible ACL permissions, inheritance, and file attributes
+    vfs objects = acl_xattr
+    map acl inherit = Yes
+    store dos attributes = Yes
+
+    # Logging med en logfil per maskin som kobler til
+    log file = /var/log/samba/log.%m
+    max log size = 50
+#============================ Share Definitions ==============================
+# Commented out because no homes should be created
+;[homes]
+;    comment = Home Directories
+;    path = /srv/shares/homes/%U
+;    browseable = no
+;    read only = no
+;    valid users = %S
+;    create mask = 0700
+;    directory mask = 0700
+
+#============================   Shared Folders   ==============================
+[felles]
+    comment = Felles mappe for Andora Arkitekters ansatte
+    path = /srv/shares/felles
+    browseable = yes  # er synlig når man browser server
+    read only = no # skrivetilgang tillatt
+    guest ok = no # må authenticate
+    valid users = @"domain users" # alle AD domain medlemmer kan aksessere
+    force group = "domain users" # ny filer og mapper er eid av denne gruppen
+    create mask = 0664 # nye filer: eier og gruppe kan rw, andre ingen
+    directory mask = 2775 # nye mapper: eier og gruppe kan rwx, setgid bit betyr at nye mapper inni delingsmappen vil arve gruppemedlemsskap
+
