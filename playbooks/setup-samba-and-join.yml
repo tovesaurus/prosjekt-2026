@@ -1,0 +1,56 @@
+---
+- name: Configure Samba file server and join AD
+  hosts: samba_fileshare
+  become: true
+  gather_facts: false
+  vars:
+    domain_name: "AD.ANDORAARKITEKTER.NO"
+    domain_user: "administrator"
+    domain_password: "passord"
+
+  tasks:
+    - name: Stopp winbind før konfigurasjoner
+      ansible.builtin.service:
+        name: winbind
+        state: stopped
+      failed_when: false
+
+    - name: Konfigurere krb5.conf
+      ansible.builtin.template:
+        src: templates/krb5.conf.j2
+        dest: /etc/krb5.conf
+
+    - name: Konfigurere smb.conf
+      ansible.builtin.template:
+        src: templates/smb.conf.j2
+        dest: /etc/samba/smb.conf
+
+    - name: Sjekk om domene er joinet fra før
+      ansible.builtin.command: net ads testjoin
+      register: testjoin_output
+      changed_when: false
+      failed_when: false
+
+    - name: Join domenet hvis ikke medlem fra før
+      ansible.builtin.command: net ads join -U {{ domain_user }}%{{ domain_password }}
+      when: testjoin_output.rc != 0
+      no_log: true
+
+    - name: Start og enable winbind
+      ansible.builtin.service:
+        name: winbind
+        state: started
+        enabled: true
+
+    - name: Konfigurere nsswitch.conf
+      ansible.builtin.template:
+        src: templates/nsswitch.conf.j2
+        dest: /etc/nsswitch.conf
+
+    - name: Opprett felles delingsmappe
+      ansible.builtin.file:
+        path: /srv/shares/felles
+        state: directory
+        owner: root
+        group: "domain users"
+        mode: '2775'
