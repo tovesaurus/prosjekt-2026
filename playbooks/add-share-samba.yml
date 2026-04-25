@@ -24,6 +24,7 @@
     - name: Legg til share i smb.conf
       ansible.builtin.blockinfile:
         path: /etc/samba/smb.conf
+        marker: "# {mark} ANSIBLE MANAGED BLOCK {{ folder_name }}"
         block: |
           [{{ folder_name }}]
               comment = Mappe for {{ ad_group }}
