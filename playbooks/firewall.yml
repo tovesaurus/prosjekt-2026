@@ -1,0 +1,16 @@
+# Installer iptables-persistent!!
+
+# lag /etc/iptables
+
+# lag /etc/iptables/backups/
+
+# backup av eksisterende iptables regler
+
+# Flushe eksisterende regler
+
+# Legge til nye regler
+
+# lagre nye regler
+
+
+

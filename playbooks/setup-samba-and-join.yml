@@ -1,12 +1,12 @@
 ---
-- name: Configure Samba file server and join AD
+- name: Konfigurer Samba filserver og join AD
   hosts: samba_fileshare
   become: true
   gather_facts: false
   vars:
     domain_name: "AD.ANDORAARKITEKTER.NO"
-    domain_user: "administrator"
-    domain_password: "passord"
+    domain_user: "administrator" # vault!!
+    domain_password: "passord" # vault!!
 
   tasks:
     - name: Stopp winbind før konfigurasjoner
@@ -17,12 +17,12 @@
 
     - name: Konfigurere krb5.conf
       ansible.builtin.template:
-        src: templates/krb5.conf.j2
+        src: ../templates/krb5.conf.j2
         dest: /etc/krb5.conf
 
     - name: Konfigurere smb.conf
       ansible.builtin.template:
-        src: templates/smb.conf.j2
+        src: ../templates/smb.conf.j2
         dest: /etc/samba/smb.conf
 
     - name: Sjekk om domene er joinet fra før
@@ -44,7 +44,7 @@
 
     - name: Konfigurere nsswitch.conf
       ansible.builtin.template:
-        src: templates/nsswitch.conf.j2
+        src: ../templates/nsswitch.conf.j2
         dest: /etc/nsswitch.conf
 
     - name: Opprett felles delingsmappe
