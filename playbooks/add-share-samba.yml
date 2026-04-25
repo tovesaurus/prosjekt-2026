@@ -26,14 +26,14 @@
         path: /etc/samba/smb.conf
         block: |
           [{{ folder_name }}]
-          comment = Mappe for {{ ad_group }}
-          path = /srv/shares/{{ folder_name }}
-          browseable = yes
-          read only = no
-          valid users = @"{{ ad_group }}"
-          force_group = "{{ ad_group }}"
-          create mask = 0664
-          directory mask = 2775
+              comment = Mappe for {{ ad_group }}
+              path = /srv/shares/{{ folder_name }}
+              browseable = yes
+              read only = no
+              valid users = @"{{ ad_group }}"
+              force_group = "{{ ad_group }}"
+              create mask = 0664
+              directory mask = 2775
 
     - name: Restart smbd
       ansible.builtin.service:
