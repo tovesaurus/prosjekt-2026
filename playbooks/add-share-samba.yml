@@ -1,0 +1,41 @@
+---
+- name: Legg til ny delt mappe
+  hosts: samba_fileshare
+  become: true
+  gather_facts: false
+
+  # Kjør playbook slik: ansible-playbook playbooks/add-share-samba.yml -e "folder_name=mappenavn ad_group=ad_gruppenavn"
+  # For navn med mellomrom må det formatteres slik: "ad_group='Gruppe i AD'"
+
+  tasks:
+    - name: Kontroll på om variabler er satt
+      ansible.builtin.fail:
+        msg: "Oppgi folder_name og ad_group med -e i kommandoen"
+      when: folder_name is not defined or ad_group is not defined
+
+    - name: Opprett ny mappe
+      ansible.builtin.file:
+        path: /srv/shares/{{ folder_name }}
+        state: directory
+        owner: root
+        group: "{{ ad_group }}"
+        mode: '2775'
+
+    - name: Legg til share i smb.conf
+      ansible.builtin.blockinfile:
+        path: /etc/samba/smb.conf
+        block: |
+          [{{ folder_name }}]
+          comment = Mappe for {{ ad_group }}
+          path = /srv/shares/{{ folder_name }}
+          browseable = yes
+          read only = no
+          valid users = @"{{ ad_group }}"
+          force_group = "{{ ad_group }}"
+          create mask = 0664
+          directory mask = 2775
+
+    - name: Restart smbd
+      ansible.builtin.service:
+        name: smbd
+        state: restarted
