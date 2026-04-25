@@ -1,0 +1,12 @@
+---
+- name: Sett FQDN
+  hosts: samba_fileshare
+  become: true
+  gather_facts: false
+  
+  tasks:
+  - name: Sett FQDN i /etc/hosts
+    ansible.builtin.lineinfile:
+      path: /etc/hosts
+      regexp: '^127\.0\.1\.1|^{{ ip_address }}'
+      line: "{{ ansible_host }}   {{ short_name }}.{{ domain_name }}   {{ short_name }}"

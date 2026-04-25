@@ -15,12 +15,6 @@
         state: stopped
       failed_when: false
 
-    - name: Sett FQDN i /etc/hosts
-      ansible.builtin.lineinfile:
-      path: /etc/hosts
-      regexp: '^127\.0\.1\.1'
-      line: '10.0.0.62   trd-fs01.ad.andoraarkitekter.no   trd-fs01'
-
     - name: Konfigurere krb5.conf
       ansible.builtin.template:
         src: ../templates/krb5.conf.j2

@@ -18,4 +18,3 @@
         name: systemd-timesyncd
         state: restarted
         enabled: true
-
