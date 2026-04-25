@@ -28,7 +28,7 @@
           [{{ folder_name }}]
               comment = Mappe for {{ ad_group }}
               path = /srv/shares/{{ folder_name }}
-              browseable = yes
+              browseable = no
               read only = no
               valid users = @"{{ ad_group }}"
               force_group = "{{ ad_group }}"
