@@ -4,9 +4,8 @@
   become: true
   gather_facts: false
   vars:
-    domain_name: "AD.ANDORAARKITEKTER.NO"
-    domain_user: "administrator" # vault!!
-    domain_password: "passord" # vault!!
+    domain_user: "administrator" # vault
+    domain_password: "passord" # vault
 
   tasks:
     - name: Stopp winbind før konfigurasjoner
