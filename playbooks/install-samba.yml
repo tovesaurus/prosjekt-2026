@@ -10,14 +10,8 @@
           - samba
           - winbind
           - libnss-winbind
-          - libpam-winbind # mulig unødvendig
+          # unødvendig dersom hjemmemapper ikke skal etablere på filserver:
+          - libpam-winbind
           - krb5-user
         state: present
         update_cache: yes
-
-
-# Samba muliggjør fildeling med windows
-# winbind lar linux og AD snakke sammen
-# libnss gjør AD-brukere synlige i Linux
-# libpam lar AD-brukere logge inn
-# Kerberos er autentiseringssystemet for AD
