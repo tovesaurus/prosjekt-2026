@@ -1,22 +1,22 @@
 ---
-# Playbook som oppdaterer pakkeliste, oppgraderer installerte pakker, og fjerner ubrukte pakker og cache
-- name: Update og Upgrade pakker
+# Playbook that updates package list, upgrades installed packages, and removes unused packages and cache
+- name: Update and Upgrade packages
   hosts: all
   become: true
 
   tasks:
-    - name: Oppdatere pakkeliste
+    - name: Update package list
       ansible.builtin.apt: 
         update_cache: yes 
         force_apt_get: yes 
         cache_valid_time: 3600
     
-    - name: Oppgrader installerte pakker
+    - name: Upgrade installed packages
       ansible.builtin.apt: 
         upgrade: dist
         force_apt_get: yes
 
-    - name: Fjern ubrukte pakker og cache
+    - name: Remove unused packages and cache
       ansible.builtin.apt:
         autoclean: yes
         autoremove: yes

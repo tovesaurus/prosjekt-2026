@@ -1,17 +1,17 @@
 ---
-- name: Installer samba avhengigheter for AD-integrasjon
+- name: Install Samba and dependencies for AD integration
   hosts: samba_fileshare
   become: true
 
   tasks:
-    - name: Installer winbind, Kerberos og samba
+    - name: Install Samba, winbind, Kerberos and libnss-winbind
       ansible.builtin.apt:
         name:
           - samba
           - winbind
           - libnss-winbind
-          # unødvendig dersom hjemmemapper ikke skal etablere på filserver:
-          - libpam-winbind
+          # Not needed if home folders are not to be created on the fileserver:
+          #- libpam-winbind
           - krb5-user
         state: present
         update_cache: yes

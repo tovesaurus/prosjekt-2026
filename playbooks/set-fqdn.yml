@@ -1,11 +1,11 @@
 ---
-- name: Sett FQDN
+- name: Set FQDN
   hosts: samba_fileshare
   become: true
   gather_facts: false
   
   tasks:
-  - name: Sett FQDN i /etc/hosts
+  - name: Set FQDN in /etc/hosts
     ansible.builtin.lineinfile:
       path: /etc/hosts
       regexp: '^127\.0\.1\.1|^{{ ip_address }}'

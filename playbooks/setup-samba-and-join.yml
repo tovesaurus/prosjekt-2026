@@ -1,52 +1,52 @@
 ---
-- name: Konfigurer Samba filserver og join AD
+- name: Samba fileserver and join domain
   hosts: samba_fileshare
   become: true
   gather_facts: false
   vars:
-    domain_user: "administrator" # vault
-    domain_password: "passord" # vault
+    domain_user: "administrator" # vault or inline
+    domain_password: "password" # vault or inline
 
   tasks:
-    - name: Stopp winbind før konfigurasjoner
+    - name: Stop winbind before configurations
       ansible.builtin.service:
         name: winbind
         state: stopped
       failed_when: false
 
-    - name: Konfigurere krb5.conf
+    - name: Configure krb5.conf from template
       ansible.builtin.template:
         src: ../templates/krb5.conf.j2
         dest: /etc/krb5.conf
 
-    - name: Konfigurere smb.conf
+    - name: Configure smb.conf from template
       ansible.builtin.template:
         src: ../templates/smb.conf.j2
         dest: /etc/samba/smb.conf
 
-    - name: Sjekk om domene er joinet fra før
+    - name: Check if a domain is already joined
       ansible.builtin.command: net ads testjoin
       register: testjoin_output
       changed_when: false
       failed_when: false
 
-    - name: Join domenet hvis ikke medlem fra før
+    - name: Join domain if not already joined
       ansible.builtin.command: net ads join -U {{ domain_user }}%{{ domain_password }}
       when: testjoin_output.rc != 0
       no_log: true
 
-    - name: Start og enable winbind
+    - name: Start and enable winbind
       ansible.builtin.service:
         name: winbind
         state: started
         enabled: true
 
-    - name: Konfigurere nsswitch.conf
+    - name: Configure nsswitch.conf from template
       ansible.builtin.template:
         src: ../templates/nsswitch.conf.j2
         dest: /etc/nsswitch.conf
 
-    - name: Opprett felles delingsmappe
+    - name: Create shared folder
       ansible.builtin.file:
         path: /srv/shares/felles
         state: directory

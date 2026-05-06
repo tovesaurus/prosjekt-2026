@@ -1,19 +1,19 @@
 ---
-- name: Legg til ny delt mappe
+- name: Add new share
   hosts: samba_fileshare
   become: true
   gather_facts: false
 
-  # Kjør playbook slik: ansible-playbook playbooks/add-share-samba.yml -e "folder_name=mappenavn ad_group=ad_gruppenavn"
-  # For navn med mellomrom må det formatteres slik: "ad_group='Gruppe i AD'"
+  # Run playbook like this: ansible-playbook playbooks/add-share-samba.yml -e "folder_name=mappenavn ad_group=ad_gruppenavn"
+  # For folder names containing spaces the formatting must be like this: "ad_group='Gruppe i AD'"
 
   tasks:
-    - name: Kontroll på om variabler er satt
+    - name: Control wether variables are set
       ansible.builtin.fail:
         msg: "Oppgi folder_name og ad_group med -e i kommandoen"
       when: folder_name is not defined or ad_group is not defined
 
-    - name: Opprett ny mappe
+    - name: Create new folder
       ansible.builtin.file:
         path: /srv/shares/{{ folder_name }}
         state: directory
@@ -21,7 +21,7 @@
         group: "{{ ad_group }}"
         mode: '2775'
 
-    - name: Legg til share i smb.conf
+    - name: Add share to smb.conf
       ansible.builtin.blockinfile:
         path: /etc/samba/smb.conf
         marker: "# {mark} ANSIBLE MANAGED BLOCK {{ folder_name }}"
