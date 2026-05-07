@@ -47,6 +47,14 @@
 ;    directory mask = 0700
 
 #============================   Shared Folders   ==============================
+[shares]
+    comment = Filserver for Andora Arkitekter
+    path = /srv/shares
+    browseable = yes
+    read only = yes
+    guest ok = no
+    valid users = @"domain users"
+
 [felles]
     comment = Felles mappe for Andora Arkitekters ansatte
     path = /srv/shares/felles
