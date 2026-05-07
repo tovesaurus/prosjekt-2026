@@ -45,6 +45,15 @@
       ansible.builtin.template:
         src: ../templates/nsswitch.conf.j2
         dest: /etc/nsswitch.conf
+    
+    - name: Create shares parent directory
+      ansible.builtin.file:
+        path: /srv/shares
+        state: directory
+        owner: root
+        group: "domain users"
+        # All domain users can read, but not write
+        mode: '0755'
 
     - name: Create shared folder
       ansible.builtin.file:
@@ -52,4 +61,5 @@
         state: directory
         owner: root
         group: "domain users"
-        mode: '2775'
+        # Access for all domain users
+        mode: '2770'
