@@ -1,5 +1,5 @@
 ---
-- name: Deploy borgmatic backup
+- name: Deploy borgmatic backup and schedule borgmatic backup
   hosts: samba_fileshare
   become: true
 
@@ -28,8 +28,16 @@
 
   - name: Deploy config from template
     ansible.builtin.template:
-      src: ../templates/borgmatic-config.yaml-j2
+      src: ../templates/borgmatic-config.yaml.j2
       dest: /etc/borgmatic/config.yaml
       owner: root
       group: root
       mode: '0600'
+  
+  - name: Schedule borgmatic backup
+    ansible.builtin.cron:
+      name: "Nightly borgmatic backup"
+      minute: "0"
+      hour: "2"
+      job: "borgmatic"
+      user: root
