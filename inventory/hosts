@@ -16,9 +16,13 @@
 [samba_fileshare]
 trd-fs01 ansible_host=10.0.0.62 short_name=trd-fs01
 
+# Ukonfigurerte nye fildelingsservere
+[new_fileshares]
+
 # Backupservere
 [backupserver]
 trd-bkp01 ansible_host=10.0.0.63
 
 [all:vars]
 domain_name=ad.andoraarkitekter.no
+backup_user= backup

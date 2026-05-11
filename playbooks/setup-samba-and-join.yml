@@ -1,6 +1,8 @@
 ---
+# This playbook should only be run once on completely new fileshare servers
+
 - name: Samba fileserver and join domain
-  hosts: samba_fileshare
+  hosts: new_fileshares
   become: true
   gather_facts: false
   vars:
