@@ -1,0 +1,35 @@
+---
+- name: Deploy borgmatic backup
+  hosts: samba_fileshare
+  become: true
+
+  vars_files:
+    - ../vars/secrets.yml
+
+  environment: 
+    BORG_PASSPHRASE: "{{ borg_passphrase }}"
+
+  tasks:
+  - name: Create log directory
+    ansible.builtin.file:
+      path: /var/log/borgmatic
+      state: directory
+      owner: root
+      group: root
+      mode: '0755'
+
+  - name: Create borgmatic config directory
+    ansible.builtin.file:
+      path: /etc/borgmatic
+      state: directory
+      owner: root
+      group: root
+      mode: '0700'
+
+  - name: Deploy config from template
+    ansible.builtin.template:
+      src: ../templates/borgmatic-config.yaml-j2
+      dest: /etc/borgmatic/config.yaml
+      owner: root
+      group: root
+      mode: '0600'

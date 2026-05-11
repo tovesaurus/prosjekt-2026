@@ -7,7 +7,6 @@
     - ../vars/secrets.yml
   vars:
     borg_encryption: repokey-blake2
-    borg_repo: "{{ backup_user }}@{{ hostvars[groups['backupserver'][0]]['ansible_host'] }}:/srv/backup/borg-{{ inventory_hostname }}"
 
   environment: 
     BORG_PASSPHRASE: "{{ borg_passphrase }}"

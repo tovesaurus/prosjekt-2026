@@ -1,13 +1,14 @@
 ---
+# Run set-fqdn playbook before this one
 # This playbook should only be run once on completely new fileshare servers
 
 - name: Samba fileserver and join domain
   hosts: new_fileshares
   become: true
   gather_facts: false
-  vars:
-    domain_user: "{{ domain_user }}"
-    domain_password: "{{ domain_password }}"
+
+  vars_files:
+    - ../vars/secrets.yml
 
   tasks:
     - name: Stop winbind before configurations
@@ -25,6 +26,12 @@
       ansible.builtin.template:
         src: ../templates/smb.conf.j2
         dest: /etc/samba/smb.conf
+
+    - name: Restart smbd after configuration
+      ansible.builtin.services:
+        name: smbd
+        state: restarted
+        enabled: true
 
     - name: Check if a domain is already joined
       ansible.builtin.command: net ads testjoin

@@ -1,0 +1,35 @@
+---
+source_directories:
+    - /srv/shares
+    - /etc/samba/smb.conf
+    - /root/borg-key-{{ inventory_hostname }}.txt
+
+repositories:
+    - path: "{{ borg_repo }}"
+      label: "{{ inventory_hostname }}-shares"
+
+encryption_passphrase: "{{ borg_passphrase }}"
+
+compression: zstd
+
+numeric_ids: true
+atime: false
+
+retries: 3
+retry_wait: 10
+
+archive_name_format: '{hostname}-{now:%Y-%m-%dT%H:%M:%S}'
+
+keep_daily: 7
+keep_weekly: 4
+keep_monthly: 6
+keep_yearly: 1
+
+checks:
+    - name: repository
+      frequency: 1 week
+    - name: archives
+      frequency: 1 month
+
+log_file: /var/log/borgmatic/borgmatic.log
+log_file_verbosity: 1
