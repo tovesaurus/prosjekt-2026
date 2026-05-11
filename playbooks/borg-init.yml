@@ -3,16 +3,14 @@
   hosts: samba_fileshare
   become: true
 
+  vars_files:
+    - ../vars/secrets.yml
   vars:
-  # Sjekk hvilken encryption jeg bør bruke
     borg_encryption: repokey-blake2
-    borg_repo: "borgbkp@10.0.0.63:/srv/backup/borg-repo"
+    borg_repo: "{{ backup_user }}@{{ hostvars[groups['backupserver'][0]]['ansible_host'] }}:/srv/backup/borg-{{ inventory_hostname }}"
 
   environment: 
     BORG_PASSPHRASE: "{{ borg_passphrase }}"
-
-  vars_files:
-    - ../vars/secrets.yml
 
   tasks:
   # Check if repository is initialized
@@ -20,11 +18,34 @@
     ansible.builtin.command:
       cmd: "borg info {{ borg_repo }}"
     register: repo_check
+    # check does not count as change
     changed_when: false
+    # don't fail playbook if repo does not exists
     failed_when: false
 
   # Initialize the repository
   - name: Initialize the repository
     ansible.builtin.command:
       cmd: "borg init --encryption={{ borg_encryption }} {{ borg_repo }}"
+    # run if repository does not exist
     when: repo_check.rc != 0
+    # register result of init
+    register: init_result
+    # change only if init succeeded
+    changed_when: init_result.rc == 0
+
+  # Repository key must be exported in case the server containing the repository crashes
+  - name: Export repository key
+    ansible.builtin.command:
+      cmd: "borg key export {{ borg_repo }} /root/borg-key-{{ inventory_hostname }}.txt"
+    when: init_result is defined and init_result.changed
+
+  # For safety the key file is restricted
+  - name: Restrict key file permissions
+    ansible.builtin.file:
+      path: "/root/borg-key-{{ inventory_hostname }}.txt"
+      # Only read access
+      mode: '0400'
+      owner: root
+      group: root
+    when: init_result is defined and init_result.changed
