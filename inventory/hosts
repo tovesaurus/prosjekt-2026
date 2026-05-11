@@ -25,4 +25,4 @@ trd-bkp01 ansible_host=10.0.0.63
 
 [all:vars]
 domain_name=ad.andoraarkitekter.no
-backup_user= backup
+backup_user= borgbkp

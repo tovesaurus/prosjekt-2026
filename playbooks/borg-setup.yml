@@ -1,26 +1,16 @@
 ---
-# This playbook installs Borg (and sets up the folders used for backup)
-- name: Install Borg
-  hosts: backupserver:samba_fileshare
+# This playbook readys the backupserver for borg initialization
+- name: Create user and folders for Borg
+  hosts: backupserver
   become: true
 
   tasks:
-    - name: Install Borg
-      ansible.builtin.apt:
-        name: borgbackup
-        state: present
-
-    # In case not installed with Borg:
-    - name: Install Borgmatic
-      ansible.builtin.apt:
-        name: borgmatic
-        state: present
-
     - name: Create backupuser on backupserver
       ansible.builtin.user:
         name: "{{ backup_user }}"
-        create_home: yes
-      when: "'backupserver' in group_names"
+        home: /srv/backup
+        create_home: true
+        state: present
 
     - name: Create directory and set backupuser as owner
       ansible.builtin.file:
@@ -28,4 +18,3 @@
         state: directory
         owner: "{{ backup_user }}"
         group: "{{ backup_user }}"
-      when: "'backupserver' in group_names"

@@ -1,0 +1,22 @@
+---
+# This playbook installs Borg on backupservers and fileshareservers
+- name: Install Borg
+  hosts: backupserver:samba_fileshare
+  become: true
+
+  tasks:
+    - name: Install Borg
+      ansible.builtin.apt:
+        name: borgbackup
+        state: present
+
+    - name: Install Borgmatic
+      ansible.builtin.apt:
+        name: borgmatic
+        state: present
+
+    - name: Create backup base directory
+      ansible.builtin.file:
+        path: /srv/backup
+        state: directory
+      when: "'backupserver' in group_names"
