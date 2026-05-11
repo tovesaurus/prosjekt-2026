@@ -14,9 +14,3 @@
       ansible.builtin.apt:
         name: borgmatic
         state: present
-
-    - name: Create backup base directory
-      ansible.builtin.file:
-        path: /srv/backup
-        state: directory
-      when: "'backupserver' in group_names"
