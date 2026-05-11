@@ -9,6 +9,7 @@
       ansible.builtin.user:
         name: "{{ backup_user }}"
         home: /srv/backup
+        shell: /bin/bash/
         create_home: true
         state: present
 
@@ -18,3 +19,4 @@
         state: directory
         owner: "{{ backup_user }}"
         group: "{{ backup_user }}"
+        mode: "0700"

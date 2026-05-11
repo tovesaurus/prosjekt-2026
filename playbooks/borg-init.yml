@@ -1,0 +1,4 @@
+---
+- name: Initialize borg repo
+  hosts: 
+  become: true
