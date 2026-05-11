@@ -6,8 +6,8 @@
   become: true
   gather_facts: false
   vars:
-    domain_user: "administrator" # vault or inline
-    domain_password: "password" # vault or inline
+    domain_user: "{{ domain_user }}"
+    domain_password: "{{ domain_password }}"
 
   tasks:
     - name: Stop winbind before configurations

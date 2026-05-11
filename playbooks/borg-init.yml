@@ -1,4 +1,30 @@
 ---
-- name: Initialize borg repo
-  hosts: 
+- name: Initialize BorgBackup repositories
+  hosts: samba_fileshare
   become: true
+
+  vars:
+  # Sjekk hvilken encryption jeg bør bruke
+    borg_encryption: repokey-blake2
+    borg_repo: "borgbkp@10.0.0.63:/srv/backup/borg-repo"
+
+  environment: 
+    BORG_PASSPHRASE: "{{ borg_passphrase }}"
+
+  vars_files:
+    - ../vars/secrets.yml
+
+  tasks:
+  # Check if repository is initialized
+  - name: Check if repository exists
+    ansible.builtin.command:
+      cmd: "borg info {{ borg_repo }}"
+    register: repo_check
+    changed_when: false
+    failed_when: false
+
+  # Initialize the repository
+  - name: Initialize the repository
+    ansible.builtin.command:
+      cmd: "borg init --encryption={{ borg_encryption }} {{ borg_repo }}"
+    when: repo_check.rc != 0

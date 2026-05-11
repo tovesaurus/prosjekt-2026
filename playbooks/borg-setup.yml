@@ -9,14 +9,15 @@
       ansible.builtin.user:
         name: "{{ backup_user }}"
         home: /srv/backup
-        shell: /bin/bash/
+        shell: /bin/bash
         create_home: true
         state: present
 
     - name: Create directory and set backupuser as owner
       ansible.builtin.file:
-        path: /srv/backup/borg-repo
+        path: /srv/backup/borg-{{ item }}
         state: directory
         owner: "{{ backup_user }}"
         group: "{{ backup_user }}"
         mode: "0700"
+      loop: "{{ groups['samba_fileshare'] }}"
