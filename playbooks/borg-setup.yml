@@ -5,7 +5,7 @@
   become: true
 
   tasks:
-    - name: Create backupuser on backupserver
+    - name: Create backup user on backupserver
       ansible.builtin.user:
         name: "{{ backup_user }}"
         home: /srv/backup
@@ -13,7 +13,7 @@
         create_home: true
         state: present
 
-    - name: Create directory and set backupuser as owner
+    - name: Create directory and set backup user as owner
       ansible.builtin.file:
         path: /srv/backup/borg-{{ item }}
         state: directory
