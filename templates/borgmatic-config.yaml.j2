@@ -1,7 +1,7 @@
 ---
 source_directories:
     - /srv/shares
-    - /etc/samba/smb.conf
+    - /etc/samba
     - /root/borg-key-{{ inventory_hostname }}.txt
 
 repositories:
@@ -31,5 +31,6 @@ checks:
     - name: archives
       frequency: 1 month
 
-log_file: /var/log/borgmatic/borgmatic.log
-log_file_verbosity: 1
+logging:
+    level: info
+    file: /var/log/borgmatic/borgmatic.log
