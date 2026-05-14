@@ -8,9 +8,9 @@
   # For folder names containing spaces the formatting must be like this: "ad_group='Gruppe i AD'"
 
   tasks:
-    - name: Control wether variables are set
+    - name: Control if required variables are set
       ansible.builtin.fail:
-        msg: >
+        msg: |
           Variables folder_name and ad_group must be set.
           Line to add after playbook:
            -e "folder_name=mappenavn ad_group=ad_gruppenavn"
