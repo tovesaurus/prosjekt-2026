@@ -18,7 +18,7 @@ atime: false
 retries: 3
 retry_wait: 10
 
-archive_name_format: '{hostname}-{now:%Y-%m-%dT%H:%M:%S}'
+archive_name_format: "{hostname}-{now:%Y-%m-%dT%H:%M:%S}"
 
 keep_daily: 7
 keep_weekly: 4
@@ -31,6 +31,4 @@ checks:
     - name: archives
       frequency: 1 month
 
-logging:
-    level: info
-    file: /var/log/borgmatic/borgmatic.log
+borgmatic --log-file /var/log/borgmatic/borgmatic.log --verbosity 1
