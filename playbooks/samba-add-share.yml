@@ -12,8 +12,8 @@
       ansible.builtin.fail:
         msg: >
           Variables folder_name and ad_group must be set.
-          Example:
-          ansible-playbook playbooks/add-share-samba.yml -e "folder_name=mappenavn ad_group=ad_gruppenavn"
+          Line to add after playbook:
+           -e "folder_name=mappenavn ad_group=ad_gruppenavn"
       when: folder_name is not defined or ad_group is not defined
 
     - name: Create new folder
