@@ -1,2 +1,2 @@
 ---
-borg_repo: "{{ backup_user }}@{{ hostvars[groups['backupserver'][0]]['ansible_host'] }}:/srv/backup/borg-{{ inventory_hostname }}"
+borg_repo: "ssh://{{ backup_user }}@{{ hostvars[groups['backupserver'][0]]['ansible_host'] }}:/srv/backup/borg-{{ inventory_hostname }}"

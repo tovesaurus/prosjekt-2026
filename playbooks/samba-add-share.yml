@@ -10,7 +10,10 @@
   tasks:
     - name: Control wether variables are set
       ansible.builtin.fail:
-        msg: "Oppgi folder_name og ad_group med -e i kommandoen"
+        msg: >
+          Variables folder_name and ad_group must be set.
+          Example:
+          ansible-playbook playbooks/add-share-samba.yml -e "folder_name=mappenavn ad_group=ad_gruppenavn"
       when: folder_name is not defined or ad_group is not defined
 
     - name: Create new folder
