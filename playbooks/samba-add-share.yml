@@ -4,18 +4,18 @@
   become: true
   gather_facts: false
 
-  # Run playbook like this: ansible-playbook playbooks/add-share-samba.yml -e "folder_name=mappenavn ad_group=ad_gruppenavn"
+  # Run playbook like this: ansible-playbook playbooks/add-share-samba.yml -e "share_name=mappenavn ad_group=ad_gruppenavn"
   # For folder names containing spaces the formatting must be like this: "ad_group='Gruppe i AD'"
 
   tasks:
     - name: Control if required variables are set
       ansible.builtin.fail:
-        msg: 'Variables folder_name and ad_group must be set: -e "folder_name=mappenavn ad_group=ad_gruppenavn"'
-      when: folder_name is not defined or ad_group is not defined
+        msg: 'Variables share_name and ad_group must be set: -e "share_name=mappenavn ad_group=ad_gruppenavn"'
+      when: share_name is not defined or ad_group is not defined
 
     - name: Create new folder
       ansible.builtin.file:
-        path: /srv/shares/{{ folder_name }}
+        path: /srv/shares/{{ share_name }}
         state: directory
         owner: root
         group: "{{ ad_group }}"
@@ -24,11 +24,11 @@
     - name: Add share to smb.conf
       ansible.builtin.blockinfile:
         path: /etc/samba/smb.conf
-        marker: "# {mark} ANSIBLE MANAGED BLOCK {{ folder_name }}"
+        marker: "# {mark} ANSIBLE MANAGED BLOCK {{ share_name }}"
         block: |
-          [{{ folder_name }}]
+          [{{ share_name }}]
               comment = Mappe for {{ ad_group }}
-              path = /srv/shares/{{ folder_name }}
+              path = /srv/shares/{{ share_name }}
               browseable = no
               read only = no
               valid users = @"{{ ad_group }}"
