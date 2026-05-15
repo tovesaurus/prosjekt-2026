@@ -5,6 +5,7 @@
   gather_facts: false
 
   # Run playbook like this: ansible-playbook playbooks/add-share-samba.yml -e "share_name=mappenavn ad_group=ad_gruppenavn"
+  # To limit the share to a specific server use --limit, example: --limit trd-fs01
   # For folder names containing spaces the formatting must be like this: "ad_group='Gruppe i AD'"
 
   tasks:

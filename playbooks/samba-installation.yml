@@ -10,8 +10,6 @@
           - samba
           - winbind
           - libnss-winbind
-          # Not needed if home folders are not to be created on the fileserver:
-          #- libpam-winbind
           - krb5-user
         state: present
         update_cache: yes
