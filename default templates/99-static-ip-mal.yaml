@@ -5,12 +5,15 @@ network:
     eth0:
       dhcp4: false
       addresses:
-        - 10.0.0.XX/24 # Må endres
+        # Static IP
+        - 10.0.0.XX/24
       routes:
         - to: default
           via: 10.0.0.138
       nameservers:
         addresses:
-          - 10.0.0.60 # IP-adressen til Windows
+          # DNS
+          - 10.0.0.60
         search:
-          - ad.andoraarkitekter.no # Domain Controller
+          # Domain Controller
+          - ad.andoraarkitekter.no
