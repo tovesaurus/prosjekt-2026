@@ -7,18 +7,6 @@
   tasks:
     - name: Install iptables-persistent
       ansible.builtin.apt:
-        name: 
-          - iptables-persistent
+        name: iptables-persistent
         state: present
         update_cache: true
-
-    - name: Create iptables directory
-      ansible.builtin.file:
-        path: "{{ items }}"
-        state: directory
-        owner: root
-        group: root
-        mode: '0700'
-      loop:
-        - /etc/iptables
-        - /etc/iptables/backups/
