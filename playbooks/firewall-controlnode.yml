@@ -1,0 +1,17 @@
+---
+- name: Install iptables-persistent and deploy rules
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Create iptables directory
+      ansible.builtin.file:
+        path: "{{ items }}"
+        state: directory
+        owner: root
+        group: root
+        mode: '0700'
+      loop:
+        - /etc/iptables
+        - /etc/iptables/backups/
