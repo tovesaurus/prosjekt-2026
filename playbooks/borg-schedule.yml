@@ -4,7 +4,7 @@
   become: true
   gather_facts: false
   tasks:
-    - name: Schedule nightly borgmatic backup
+    - name: Schedule borgmatic backup
       ansible.builtin.cron:
         name: "Nightly borgmatic backup"
         minute: "0"
