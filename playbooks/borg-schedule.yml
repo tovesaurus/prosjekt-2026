@@ -1,0 +1,13 @@
+---
+- name: Schedule borgmatic backup
+  hosts: samba_fileshare
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Schedule nightly borgmatic backup
+      ansible.builtin.cron:
+        name: "Nightly borgmatic backup"
+        minute: "0"
+        hour: "2"
+        job: "borgmatic --log-file /var/log/borgmatic/borgmatic.log"
+        user: root
