@@ -71,7 +71,11 @@
     - name: Restore IPv4 rules
       ansible.builtin.command:
         cmd: iptables-restore /etc/iptables/rules.v4
+      async: 10
+      poll: 0
 
     - name: Restore IPv6 rules
       ansible.builtin.command:
         cmd: ip6tables-restore /etc/iptables/rules.v6
+      async: 10
+      poll: 0
