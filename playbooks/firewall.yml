@@ -30,12 +30,12 @@
     - name: Backup current v4 rules
       community.general.iptables_state:
         state: saved
-        path: /etc/iptables/backups/iptables-backup-{{ ansible_date_time.iso8601_basic_short }}.v4
+        path: /etc/iptables/backups/iptables-backup-{{ ansible_facts['date_time']['iso8601_basic_short'] }}.v4
 
     - name: Backup current v6 rules
       community.general.iptables_state:
         state: saved
-        path: /etc/iptables/backups/iptables-backup-{{ ansible_date_time.iso8601_basic_short }}.v6
+        path: /etc/iptables/backups/iptables-backup-{{ ansible_facts['date_time']['iso8601_basic_short'] }}.v6
         ip_version: ipv6
 
     - name: Add rules to Filservers
