@@ -1,0 +1,32 @@
+# Managed by Ansible - do not edit manually
+
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT DROP [0:0]
+
+# Allow loopback
+-A INPUT -i lo -j ACCEPT
+-A OUTPUT -o lo -j ACCEPT
+
+# Allow established/related connections
+-A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+-A OUTPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+# SSH ACCESS FROM TRD-MGMT01
+-A INPUT -p tcp -s 10.0.0.61 --dport 22 -m conntrack --ctstate NEW -j ACCEPT
+# SSH ACCESS TO TRD-BKP01
+-A OUTPUT -p tcp -d 10.0.0.63 --dport 22 -m conntrack --ctstate NEW -j ACCEPT
+
+# SMB from clients
+-A INPUT -p tcp -s 10.0.0.0/24 --dport 445 -m conntrack --ctstate NEW -j ACCEPT
+
+# All traffic to DC (Kerberos, LDAP, RPC, DNS, NTP)
+-A OUTPUT -d 10.0.0.60 -j ACCEPT
+
+# Updates
+-A OUTPUT -p tcp -m multiport --dports 80,443 -j ACCEPT
+
+# Logging
+-A INPUT -m limit --limit 5/min -j LOG --log-prefix "IPT INPUT DROP: " --log-level 4
+COMMIT

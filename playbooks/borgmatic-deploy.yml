@@ -40,5 +40,5 @@
       name: "Nightly borgmatic backup"
       minute: "0"
       hour: "2"
-      job: "borgmatic"
+      job: "borgmatic --log-file /var/log/borgmatic/borgmatic.log"
       user: root

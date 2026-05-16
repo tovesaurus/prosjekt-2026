@@ -1,6 +1,6 @@
 #======================= Global Settings =====================================
 [global]
-    # Domeneinnstillinger
+    # Domain
     realm = {{ domain_name | upper }}
     workgroup = AD
     security = ADS
@@ -32,7 +32,7 @@
     map acl inherit = Yes
     store dos attributes = Yes
 
-    # Logging med en logfil per maskin som kobler til
+    # Logging for each machine that logs on
     log file = /var/log/samba/log.%m
     max log size = 50
 #============================ Share Definitions ==============================
@@ -51,7 +51,7 @@
     comment = Filserver for Andora Arkitekter
     path = /srv/shares
     browseable = yes
-    read only = yes
+    read only = no
     guest ok = no
     valid users = @"domain users"
     access based share enum = yes

@@ -1,13 +1,77 @@
-# Installer iptables-persistent!!
+---
+- name: Install iptables-persistent and deploy rules
+  hosts: all
+  become: true
 
-# lag /etc/iptables
+  tasks:
+    - name: Prevent install dialog iptables-persistent
+      ansible.builtin.debconf:
+        name: iptables-persistent
+        question: "{{ item }}"
+        vtype: boolean
+        value: "true"
+      loop:
+        - iptables-persistent/autosave_v4
+        - iptables-persistent/autosave_v6
 
-# lag /etc/iptables/backups/
+    - name: Install iptables-persistent
+      ansible.builtin.apt:
+        name: iptables-persistent
+        state: present
 
-# backup av eksisterende iptables regler
+    - name: Create iptables backup directory
+      ansible.builtin.file:
+        path: /etc/iptables/backups
+        state: directory
+        owner: root
+        group: root
+        mode: '0700'
 
-# Flushe eksisterende regler
+    - name: Backup current v4 rules
+      community.general.iptables_state:
+        state: saved
+        path: /etc/iptables/backups/iptables-backup-{{ ansible_date_time.iso8601_basic_short }}.v4
 
-# Legge til nye regler
+    - name: Backup current v6 rules
+      community.general.iptables_state:
+        state: saved
+        path: /etc/iptables/backups/iptables-backup-{{ ansible_date_time.iso8601_basic_short }}.v6
+        ip_version: ipv6
 
-# lagre nye regler
+    - name: Add rules to Filservers
+      ansible.builtin.template:
+        src: ../templates/iptables-fs.v4.j2
+        dest: /etc/iptables/rules.v4
+        owner: root
+        group: root
+        mode: '0600'
+      when: "'samba_fileshare' in group_names"
+      notify: Restore IPv4 rules
+
+    - name: Add rules to backupservers
+      ansible.builtin.template:
+        src: ../templates/iptables-bkp.v4.j2
+        dest: /etc/iptables/rules.v4
+        owner: root
+        group: root
+        mode: '0600'
+      when: "'backupserver' in group_names"
+      notify: Restore IPv4 rules
+
+    - name: Deploy IPv6 rules
+      ansible.builtin.template:
+        src: ../templates/iptables.v6.j2
+        dest: /etc/iptables/rules.v6
+        owner: root
+        group: root
+        mode: '0600'
+      notify: Restore IPv6 rules
+
+  handlers:
+    - name: Restore IPv4 rules
+      ansible.builtin.command:
+        cmd: iptables-restore /etc/iptables/rules.v4
+
+    - name: Restore IPv6 rules
+      ansible.builtin.command:
+        cmd: ip6tables-restore /etc/iptables/rules.v6
