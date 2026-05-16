@@ -7,7 +7,7 @@
   tasks:
     - name: Create iptables directory
       ansible.builtin.file:
-        path: "{{ items }}"
+        path: "{{ item }}"
         state: directory
         owner: root
         group: root
