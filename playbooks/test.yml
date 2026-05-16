@@ -1,0 +1,14 @@
+---
+- name: Run playbook on itself
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Run a local command
+      ansible.builtin.command: echo "Ansible is running on itself!"
+      register: output
+
+    - name: Print the output
+      ansible.builtin.debug:
+        var: output.stdout
