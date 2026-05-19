@@ -1,4 +1,5 @@
 ---
+# Run with --ask-vault-pass
 - name: Initialize BorgBackup repositories
   hosts: samba_fileshare
   become: true

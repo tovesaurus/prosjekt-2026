@@ -1,6 +1,6 @@
 ---
 # Run with --ask-vault-pass
-- name: Deploy borgmatic backup and schedule borgmatic backup
+- name: Create directories and deploy borgmatic config
   hosts: samba_fileshare
   become: true
 

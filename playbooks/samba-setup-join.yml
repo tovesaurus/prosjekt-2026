@@ -1,6 +1,7 @@
 ---
 # Run set-fqdn playbook before this one
 # This playbook should only be run once on completely new fileshare servers
+# Run with --ask-vault-pass
 
 - name: Samba fileserver and join domain
   hosts: new_fileshares
@@ -61,7 +62,6 @@
         state: directory
         owner: root
         group: "domain users"
-        # All domain users can read, but not write
         mode: '0755'
 
     - name: Create shared folder
@@ -70,5 +70,4 @@
         state: directory
         owner: root
         group: "domain users"
-        # Access for all domain users
         mode: '2770'

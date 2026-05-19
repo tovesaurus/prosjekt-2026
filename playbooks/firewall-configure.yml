@@ -1,24 +1,9 @@
 ---
-- name: Install iptables-persistent and deploy rules
+- name: Backup and deploy firewall rules
   hosts: all
   become: true
 
   tasks:
-    - name: Prevent install dialog iptables-persistent
-      ansible.builtin.debconf:
-        name: iptables-persistent
-        question: "{{ item }}"
-        vtype: boolean
-        value: "true"
-      loop:
-        - iptables-persistent/autosave_v4
-        - iptables-persistent/autosave_v6
-
-    - name: Install iptables-persistent
-      ansible.builtin.apt:
-        name: iptables-persistent
-        state: present
-
     - name: Create iptables backup directory
       ansible.builtin.file:
         path: /etc/iptables/backups
