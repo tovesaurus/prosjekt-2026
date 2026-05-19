@@ -18,20 +18,15 @@
     ansible.builtin.command:
       cmd: "borg info {{ borg_repo }}"
     register: repo_check
-    # check does not count as change
     changed_when: false
-    # don't fail playbook if repo does not exists
     failed_when: false
 
   # Initialize the repository
   - name: Initialize the repository
     ansible.builtin.command:
       cmd: "borg init --encryption={{ borg_encryption }} {{ borg_repo }}"
-    # run if repository does not exist
     when: repo_check.rc != 0
-    # register result of init
     register: init_result
-    # change only if init succeeded
     changed_when: init_result.rc == 0
 
   # Repository key must be exported in case the server containing the repository crashes
@@ -44,7 +39,6 @@
   - name: Restrict key file permissions
     ansible.builtin.file:
       path: "/root/borg-key-{{ inventory_hostname }}.txt"
-      # Only read access
       mode: '0400'
       owner: root
       group: root
