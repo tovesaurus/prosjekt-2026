@@ -1,4 +1,6 @@
 ---
+# This playbook installs iptables-resisten to persist firewall rules across reboots
+
 - name: Install iptables-persistent
   hosts: all
   become: true

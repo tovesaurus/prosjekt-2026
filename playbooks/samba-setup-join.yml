@@ -1,5 +1,6 @@
 ---
-# Run set-fqdn playbook before this one
+# This playbook joins a Samba fileserver to the domain, configures required files from templates and creates main shares.
+
 # This playbook should only be run once on completely new fileshare servers
 # Run with --ask-vault-pass
 

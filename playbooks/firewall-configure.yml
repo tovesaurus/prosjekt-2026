@@ -1,4 +1,6 @@
 ---
+# This playbook backs up existing firewallrules before deploying new ones from template
+
 - name: Backup and deploy firewall rules
   hosts: all
   become: true

@@ -1,5 +1,6 @@
 ---
-# Playbook that updates package list, upgrades installed packages, and removes unused packages and cache
+# This playbook updates package list, upgrades installed packages, and removes unused packages and cache
+
 - name: Update and Upgrade packages
   hosts: all
   become: true

@@ -1,4 +1,6 @@
 ---
+# This playbook installs Samba and related packages required for AD integration
+
 - name: Install Samba and dependencies for AD integration
   hosts: samba_fileshare
   become: true

@@ -1,6 +1,8 @@
 ---
+# This playbook sets Fully Qualified Domain Name for new fileshareservers
+
 - name: Set FQDN
-  hosts: samba_fileshare
+  hosts: new_fileshares
   become: true
   gather_facts: false
   

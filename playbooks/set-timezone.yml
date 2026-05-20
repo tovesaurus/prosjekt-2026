@@ -1,4 +1,6 @@
 ---
+# This playbook sets timezone to UTC for consistent time in logs and syncs systemtime with domaincontroller from template
+
 - name: Configure timesyncronisation
   hosts: all
   become: true

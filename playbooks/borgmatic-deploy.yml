@@ -1,5 +1,7 @@
 ---
+# This playbook readys borgmatic from template
 # Run with --ask-vault-pass
+
 - name: Create directories and deploy borgmatic config
   hosts: samba_fileshare
   become: true

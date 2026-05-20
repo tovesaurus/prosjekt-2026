@@ -1,4 +1,6 @@
 ---
+# This playbooks adds a new shared directory and configures permissions in smb.conf
+
 - name: Add new share
   hosts: samba_fileshare
   become: true

@@ -1,4 +1,5 @@
 ---
+# This playbooks schedules backup on fileservers
 - name: Schedule borgmatic backup
   hosts: samba_fileshare
   become: true
