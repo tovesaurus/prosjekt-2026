@@ -1,32 +1,39 @@
 ---
 # Managed by Ansible - do not edit manually
 
+# Directories included in backup
 source_directories:
     - /srv/shares
     - /etc/samba
     - /root/borg-key-{{ inventory_hostname }}.txt
 
+# Repository backup destination
 repositories:
     - path: "{{ borg_repo }}"
       label: "{{ inventory_hostname }}-shares"
 
 encryption_passphrase: "{{ borg_passphrase }}"
 
+# zstd balances speed and compression ratio
 compression: zstd
 
+# Avoid UID/GID mapping issues when restoring and do not update access times during backup
 numeric_ids: true
 atime: false
 
+# Retry failed backups
 retries: 3
 retry_wait: 10
 
 archive_name_format: "{hostname}-{now:%Y-%m-%d_%H-%M-%S}"
 
+# Retention policy
 keep_daily: 7
 keep_weekly: 4
 keep_monthly: 6
 keep_yearly: 1
 
+# Integrity checks for repository and archives
 checks:
     - name: repository
       frequency: 1 week
